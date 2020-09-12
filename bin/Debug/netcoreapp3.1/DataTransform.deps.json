@@ -1,0 +1,107 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "DataTransform/1.0.0": {
+        "dependencies": {
+          "Codemasters.F1_2020": "1.3.0",
+          "Csv": "1.0.57"
+        },
+        "runtime": {
+          "DataTransform.dll": {}
+        }
+      },
+      "Codemasters.F1_2020/1.3.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3",
+          "TimHanewich.Csv": "1.0.0",
+          "TimHanewich.Toolkit": "3.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/src.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Csv/1.0.57": {
+        "runtime": {
+          "lib/netcoreapp3.1/Csv.dll": {
+            "assemblyVersion": "1.0.57.0",
+            "fileVersion": "1.0.57.0"
+          }
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.3.23909"
+          }
+        }
+      },
+      "TimHanewich.Csv/1.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/TimHanewich.Csv.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "TimHanewich.Toolkit/3.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/TimHanewichToolkit.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DataTransform/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Codemasters.F1_2020/1.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nWtHYyXpTl1lhh10i8sdpFH4ymmLSO7/5alHavQxvkspSS3LkeHGQhd+BlO1EOg2LfaGr/AgsWJngl/UN8Rkwg==",
+      "path": "codemasters.f1_2020/1.3.0",
+      "hashPath": "codemasters.f1_2020.1.3.0.nupkg.sha512"
+    },
+    "Csv/1.0.57": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fzsR+t6LQoNEWxDzo2QQOZHwxXbZdyU4xufJAXd8WQtRQKsFN3pJAs20sT84A6Y3gwmTslylioji4EPt57465w==",
+      "path": "csv/1.0.57",
+      "hashPath": "csv.1.0.57.nupkg.sha512"
+    },
+    "Newtonsoft.Json/12.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "path": "newtonsoft.json/12.0.3",
+      "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    },
+    "TimHanewich.Csv/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KZhPSh4gJ8PVxs0YORX2NwZwybFfNzLdm7UGFDaHk3oIvDCahM9NY95OD2yFjskLgPFbQBCqoxIwbcNqT1Zv0Q==",
+      "path": "timhanewich.csv/1.0.0",
+      "hashPath": "timhanewich.csv.1.0.0.nupkg.sha512"
+    },
+    "TimHanewich.Toolkit/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1KpBXHOMh6Bsw+MMGg4JtrM/CbpGV7KR1QIdq08xJwZCZH52LyqDfST1li6AD3N4/xt+1/1RMKP1YZberbwfZw==",
+      "path": "timhanewich.toolkit/3.0.0",
+      "hashPath": "timhanewich.toolkit.3.0.0.nupkg.sha512"
+    }
+  }
+}

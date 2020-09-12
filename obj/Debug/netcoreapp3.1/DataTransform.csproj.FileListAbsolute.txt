@@ -1,0 +1,17 @@
+F:\bf_workshop_c#\DataTransform\bin\Debug\netcoreapp3.1\DataTransform.exe
+F:\bf_workshop_c#\DataTransform\obj\Debug\netcoreapp3.1\DataTransform.csprojAssemblyReference.cache
+F:\bf_workshop_c#\DataTransform\obj\Debug\netcoreapp3.1\DataTransform.AssemblyInfoInputs.cache
+F:\bf_workshop_c#\DataTransform\obj\Debug\netcoreapp3.1\DataTransform.AssemblyInfo.cs
+F:\bf_workshop_c#\DataTransform\bin\Debug\netcoreapp3.1\DataTransform.deps.json
+F:\bf_workshop_c#\DataTransform\bin\Debug\netcoreapp3.1\DataTransform.runtimeconfig.json
+F:\bf_workshop_c#\DataTransform\bin\Debug\netcoreapp3.1\DataTransform.runtimeconfig.dev.json
+F:\bf_workshop_c#\DataTransform\bin\Debug\netcoreapp3.1\DataTransform.dll
+F:\bf_workshop_c#\DataTransform\bin\Debug\netcoreapp3.1\DataTransform.pdb
+F:\bf_workshop_c#\DataTransform\bin\Debug\netcoreapp3.1\Csv.dll
+F:\bf_workshop_c#\DataTransform\obj\Debug\netcoreapp3.1\DataTransform.csproj.CopyComplete
+F:\bf_workshop_c#\DataTransform\obj\Debug\netcoreapp3.1\DataTransform.dll
+F:\bf_workshop_c#\DataTransform\obj\Debug\netcoreapp3.1\DataTransform.pdb
+F:\bf_workshop_c#\DataTransform\bin\Debug\netcoreapp3.1\src.dll
+F:\bf_workshop_c#\DataTransform\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+F:\bf_workshop_c#\DataTransform\bin\Debug\netcoreapp3.1\TimHanewich.Csv.dll
+F:\bf_workshop_c#\DataTransform\bin\Debug\netcoreapp3.1\TimHanewichToolkit.dll
