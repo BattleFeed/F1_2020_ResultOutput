@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Codemasters.F1_2020;
 
-namespace DataTransform
+namespace F1_2020_ResultOutput
 {
     class FinalClassificationDataComparer : IComparer<FinalClassificationPacket.FinalClassificationData>
     {

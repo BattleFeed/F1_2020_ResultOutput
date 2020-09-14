@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace DataTransform
+namespace F1_2020_ResultOutput
 {
     class StringConverter
     {
@@ -12,7 +11,7 @@ namespace DataTransform
             return DoubleToStringTime(_time);
         }
 
-        public static string DoubleToStringTime(double time)
+        public static string DoubleToStringTime(double time) // convert to string like this: "1:06:02.028"
         {
             int miliseconds = Convert.ToInt32(time / 0.001);
             TimeSpan ts = new TimeSpan(0, 0, 0, 0, miliseconds);
@@ -32,7 +31,7 @@ namespace DataTransform
                 else { minStr = ""; }
             }
             return (hour == 0 ? "" : hour.ToString() + ":") + minStr +
-                (sec < 10 ? "0" + sec.ToString() : sec.ToString()) + "." +
+                ((sec < 10 && (hour > 0 || min > 0)) ? "0" + sec.ToString() : sec.ToString()) + "." +
                 (mili < 10 ? "00" + mili.ToString() : (mili < 100 ? "0" + mili.ToString() : mili.ToString()));
             //time = Math.Round(time, 3);
             //int hour = Convert.ToInt32(time / 3600);

@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {
+    ".NETFramework,Version=v4.8": {
       "Codemasters.F1_2020/1.3.0": {
         "type": "package",
         "dependencies": {
@@ -18,20 +18,80 @@
       },
       "Csv/1.0.57": {
         "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System"
+        ],
         "compile": {
-          "lib/netcoreapp3.1/Csv.dll": {}
+          "lib/net40/Csv.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp3.1/Csv.dll": {}
+          "lib/net40/Csv.dll": {}
         }
       },
       "Newtonsoft.Json/12.0.3": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+          "lib/net45/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "TimHanewich.Csv/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/TimHanewich.Csv.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/TimHanewich.Csv.dll": {}
+        }
+      },
+      "TimHanewich.Toolkit/3.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/TimHanewichToolkit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/TimHanewichToolkit.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.8/win7-x86": {
+      "Codemasters.F1_2020/1.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3",
+          "TimHanewich.Csv": "1.0.0",
+          "TimHanewich.Toolkit": "3.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/src.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/src.dll": {}
+        }
+      },
+      "Csv/1.0.57": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System"
+        ],
+        "compile": {
+          "lib/net40/Csv.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Csv.dll": {}
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
       "TimHanewich.Csv/1.0.0": {
@@ -148,7 +208,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": [
+    ".NETFramework,Version=v4.8": [
       "Codemasters.F1_2020 >= 1.3.0",
       "Csv >= 1.0.57"
     ]
@@ -170,7 +230,7 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "netcoreapp3.1"
+        "net48"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -178,7 +238,7 @@
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "netcoreapp3.1": {
+        "net48": {
           "projectReferences": {}
         }
       },
@@ -189,7 +249,7 @@
       }
     },
     "frameworks": {
-      "netcoreapp3.1": {
+      "net48": {
         "dependencies": {
           "Codemasters.F1_2020": {
             "target": "Package",
@@ -200,22 +260,12 @@
             "version": "[1.0.57, )"
           }
         },
-        "imports": [
-          "net461",
-          "net462",
-          "net47",
-          "net471",
-          "net472",
-          "net48"
-        ],
-        "assetTargetFallback": true,
-        "warn": true,
-        "frameworkReferences": {
-          "Microsoft.NETCore.App": {
-            "privateAssets": "all"
-          }
-        },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+      }
+    },
+    "runtimes": {
+      "win7-x86": {
+        "#import": []
       }
     }
   }

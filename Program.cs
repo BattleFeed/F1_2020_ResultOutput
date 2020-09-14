@@ -3,7 +3,7 @@ using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 using Codemasters.F1_2020;
-using DataTransform;
+using F1_2020_ResultOutput;
 
 public class Program
 {
@@ -22,8 +22,7 @@ public class Program
         IPEndPoint groupEP = new IPEndPoint(ip, listenPort);
 
         var p = new Packet();
-        var fcp = new FinalClassificationPacket();
-        // var pp = new ParticipantPacket();
+        
         // var names = new ArrayList(); // -----
 
         try
@@ -32,26 +31,19 @@ public class Program
             while (true)
             {
                 byte[] bytes = listener.Receive(ref groupEP);
-                p.LoadBytes(bytes);
+                p.LoadBytes(bytes);      
+                
+                bool resultReceived = false;
                 // bool namesInitialized = false;
-                if (p.PacketType == PacketType.FinalClassification) //todo: 未完赛/套圈处理/把完赛时间修改为delta
+                if (p.PacketType == PacketType.FinalClassification && !resultReceived) // Match is finished
                 {
-                    fcp.LoadBytes(bytes);
-                    Console.WriteLine($"Number of Cars : {fcp.NumberOfCars}");
-                    Console.WriteLine("Pos.\tGrid\tBest\t\tTime\t\tPenalty\tPoints");
-
-                    var data = fcp.FieldClassificationData;
-                    Array.Sort(data, new FinalClassificationDataComparer());
-                    foreach (var item in data)
-                    {
-                        if (item.FinishingPosition == 0) { continue; }
-                        Console.WriteLine($"{item.FinishingPosition}\t{item.StartingGridPosition}\t{StringConverter.FloatToStringTime(item.BestLapTimeSeconds)}\t" +
-                            $"{StringConverter.DoubleToStringTime(item.TotalRaceTimeSeconds)}\t{item.PenaltiesTimeSeconds}\t{item.PointsScored}");
-                    }
+                    resultReceived = true;
+                    FinalClassificationOutput.OutputResult(bytes);
                 }
                 //else if (p.PacketType == PacketType.Participants && !namesInitialized)
                 //{
                 //    namesInitialized = true;
+                //    var pp = new ParticipantPacket();
                 //    pp.LoadBytes(bytes);
                 //    var data = pp.FieldParticipantData;
                 //    var l = data.Length;
@@ -61,7 +53,7 @@ public class Program
                 //        Console.WriteLine($"The driver #{i} is {data[i].Name}"); //--------------
                 //    }                   
                 //} 
-                
+
                 // Console.WriteLine($"Received broadcast from {groupEP} :");
             }
         }
