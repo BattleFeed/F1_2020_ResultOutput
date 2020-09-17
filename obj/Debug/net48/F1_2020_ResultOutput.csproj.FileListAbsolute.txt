@@ -12,3 +12,9 @@ F:\bf_workshop_c#\F1_2020_ResultOutput\obj\Debug\net48\F1_2020_ResultOutput.Asse
 F:\bf_workshop_c#\F1_2020_ResultOutput\obj\Debug\net48\F1_2020_ResultOutput.csproj.CopyComplete
 F:\bf_workshop_c#\F1_2020_ResultOutput\obj\Debug\net48\F1_2020_ResultOutput.exe
 F:\bf_workshop_c#\F1_2020_ResultOutput\obj\Debug\net48\F1_2020_ResultOutput.pdb
+F:\bf_workshop_c#\F1_2020_ResultOutput\bin\Debug\net48\NPOI.OOXML.dll
+F:\bf_workshop_c#\F1_2020_ResultOutput\bin\Debug\net48\NPOI.OpenXml4Net.dll
+F:\bf_workshop_c#\F1_2020_ResultOutput\bin\Debug\net48\NPOI.OpenXmlFormats.dll
+F:\bf_workshop_c#\F1_2020_ResultOutput\bin\Debug\net48\NPOI.dll
+F:\bf_workshop_c#\F1_2020_ResultOutput\bin\Debug\net48\BouncyCastle.Crypto.dll
+F:\bf_workshop_c#\F1_2020_ResultOutput\bin\Debug\net48\ICSharpCode.SharpZipLib.dll
