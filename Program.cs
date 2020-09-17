@@ -22,7 +22,6 @@ public class Program
         IPEndPoint groupEP = new IPEndPoint(ip, listenPort);
 
         var p = new Packet();
-        
         // var names = new ArrayList(); // -----
 
         try
@@ -33,11 +32,11 @@ public class Program
                 byte[] bytes = listener.Receive(ref groupEP);
                 p.LoadBytes(bytes);      
                 
-                bool resultReceived = false;
+                // bool resultReceived = false;
                 // bool namesInitialized = false;
-                if (p.PacketType == PacketType.FinalClassification && !resultReceived) // Match is finished
+                if (p.PacketType == PacketType.FinalClassification) // Match is finished
                 {
-                    resultReceived = true;
+                    // resultReceived = true;
                     FinalClassificationOutput.OutputResult(bytes);
                 }
                 //else if (p.PacketType == PacketType.Participants && !namesInitialized)
