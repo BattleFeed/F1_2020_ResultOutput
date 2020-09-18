@@ -1,2 +1,4 @@
 .vs/
+bin/Debug/net48/*
+!bin/Debug/net48/template.xlsx
 obj/
