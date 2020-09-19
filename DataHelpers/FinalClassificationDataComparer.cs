@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Codemasters.F1_2020;
-using F1_2020_ResultOutput;
 
 namespace F1_2020_ResultOutput
 {

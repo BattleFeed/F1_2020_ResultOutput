@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -8,7 +7,7 @@ namespace F1_2020_ResultOutput
 {
     class FinalClassificationOutput
     {
-        public static void OutputResult(byte[] bytes)
+        public static void OutputResult(byte[] bytes, double[] qualiTimes)
         {
             string templatePath = @"template.xlsx";
             string filePath = DateTime.Now.ToString("yyyyMMdd-HHmm") + ".xlsx";
@@ -63,21 +62,22 @@ namespace F1_2020_ResultOutput
             Console.WriteLine($"Number of Cars : {driverAmount}");
             //Console.WriteLine("Pos.\tGrid\tBest\t\tTime\t\tPenalty\tPoints");
 
-            foreach (var item in data)
+            for(int i=0; i<22; i++)
             {
-                if (item.FinishingPosition == 0) { continue; } // driver does not exist
+                var item = data[i];
+                if (item.FinishingPosition == 0) { continue; } // driver does not exist               
 
-                #region deal with bestLapTimeString
-                string bestLapTime;
-                if (item.BestLapTimeSeconds < 1) // abnormal best lap
-                {
-                    bestLapTime = "-";
-                }
-                else
-                {
-                    bestLapTime = StringConverter.FloatToStringTime(item.BestLapTimeSeconds);
-                }
-                #endregion
+                //#region deal with bestLapTimeString
+                //string bestLapTime;
+                //if (item.BestLapTimeSeconds < 1) // abnormal best lap
+                //{
+                //    bestLapTime = "-";
+                //}
+                //else
+                //{
+                //    bestLapTime = StringConverter.FloatToStringTime(item.BestLapTimeSeconds);
+                //}
+                //#endregion
 
                 #region deal with raceTimeString
                 string raceTime;
@@ -141,6 +141,16 @@ namespace F1_2020_ResultOutput
 
                 IRow row = sheet.GetRow(item.FinishingPosition);
 
+                //if (names[i].Length > 0) // valid name
+                //{
+                //    row.GetCell(1).SetCellValue(names[i]);
+                //}
+                
+                if (qualiTimes[i] > 1) // valid quali time
+                {
+                    row.GetCell(2).SetCellValue(StringConverter.DoubleToStringTime(qualiTimes[i]));
+                }
+                
                 row.GetCell(3).SetCellValue(item.StartingGridPosition);
 
                 int positionGained = item.StartingGridPosition - item.FinishingPosition;
@@ -162,7 +172,11 @@ namespace F1_2020_ResultOutput
                 }
 
                 row.GetCell(6).SetCellValue(tyreStints);
-                row.GetCell(7).SetCellValue(bestLapTime);
+                
+                if (item.BestLapTimeSeconds > 1)
+                {
+                    row.GetCell(7).SetCellValue(StringConverter.FloatToStringTime(item.BestLapTimeSeconds));
+                }
                 //if (item.BestLapTimeSeconds == fastestLapOfTheRace)
                 //{
                 //    row.GetCell(7).CellStyle.SetFont(purpleFont);

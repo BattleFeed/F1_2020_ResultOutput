@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 using Codemasters.F1_2020;
@@ -22,36 +21,80 @@ public class Program
         IPEndPoint groupEP = new IPEndPoint(ip, listenPort);
 
         var p = new Packet();
-        // var names = new ArrayList(); // -----
+        var fcp = new FinalClassificationPacket();
+        // var pp = new ParticipantPacket();
+        var sp = new SessionPacket();
+
+        //string[] names = new string[22];
+        //for (int i = 0; i < 22; i++)
+        //{
+        //    names[i] = "_unnamed_";
+        //}
+        double[] qualiTimes = new double[22];
+
+        // int pTick = -1;
+        int sTick = -1;
+        bool qualiStated = false;
+        bool raceStated = false;               
+        bool isRacing = true;
 
         try
         {
             Console.WriteLine("Waiting for broadcast");
+            
             while (true)
             {
                 byte[] bytes = listener.Receive(ref groupEP);
-                p.LoadBytes(bytes);      
-                
-                // bool resultReceived = false;
-                // bool namesInitialized = false;
-                if (p.PacketType == PacketType.FinalClassification) // Match is finished
+                p.LoadBytes(bytes);
+                if (p.PacketType == PacketType.FinalClassification)// once Match/Quali is finished
                 {
-                    // resultReceived = true;
-                    FinalClassificationOutput.OutputResult(bytes);
+                    if (isRacing && !raceStated)
+                    {
+                        raceStated = true;
+                        FinalClassificationOutput.OutputResult(bytes, qualiTimes);
+                        Console.WriteLine("Excel file exported");
+                    }
+                    else if (!qualiStated )
+                    {
+                        qualiStated = true;
+                        fcp.LoadBytes(bytes);
+                        for (int i = 0; i < fcp.FieldClassificationData.Length; i++)
+                        {
+                            qualiTimes[i] = fcp.FieldClassificationData[i].BestLapTimeSeconds;
+                        }
+                        Console.WriteLine("Qualifying Time stated");
+                    }
                 }
-                //else if (p.PacketType == PacketType.Participants && !namesInitialized)
+                //else if (p.PacketType == PacketType.Participants) // Every 5 seconds
                 //{
-                //    namesInitialized = true;
-                //    var pp = new ParticipantPacket();
+                //    pTick = (pTick + 1) % 6;
+                //    if (pTick != 0) { continue; } // check once per 30s
                 //    pp.LoadBytes(bytes);
-                //    var data = pp.FieldParticipantData;
-                //    var l = data.Length;
-                //    for (int i = 0; i < l; i++)
+                //    for (int i = 0; i < pp.FieldParticipantData.Length; i++)
                 //    {
-                //        names.Add(data[i].Name);
-                //        Console.WriteLine($"The driver #{i} is {data[i].Name}"); //--------------
-                //    }                   
-                //} 
+                //        names[i] = pp.FieldParticipantData[i];
+                //        // Console.WriteLine($"The driver #{i} is {data[i].Name}");
+                //    }
+                //    Console.WriteLine("Name refreshed");
+                //}
+                // does NOT deal with Q1/Q2/Q3
+                else if(p.PacketType == PacketType.Session) // 2 per second
+                {
+                    sTick = (sTick + 1) % 60;
+                    if (sTick != 0) { continue; } // check once per 30s
+                    sp.LoadBytes(bytes);
+                    if (sp.SessionTypeMode == SessionPacket.SessionType.ShortQualifying || sp.SessionTypeMode == SessionPacket.SessionType.OneShotQualifying)
+                    {
+                        isRacing = false;
+                        Console.WriteLine("Current session: qualifying");
+                    }
+                    else if (sp.SessionTypeMode == SessionPacket.SessionType.Race || sp.SessionTypeMode == SessionPacket.SessionType.Race2)
+                    {
+                        isRacing = true;
+                        Console.WriteLine("Current session: race");
+                    }
+                    
+                }
 
                 // Console.WriteLine($"Received broadcast from {groupEP} :");
             }
