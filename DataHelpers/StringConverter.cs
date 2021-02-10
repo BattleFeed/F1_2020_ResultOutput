@@ -21,13 +21,17 @@ namespace F1_2020_ResultOutput
             string minStr;
             if (hour > 0)
             {
-                if (min >= 10) { minStr = min.ToString() + ":"; }
-                else { minStr = "0" + min.ToString() + ":"; }
+                if (min >= 10)
+                    minStr = min.ToString() + ":";
+                else
+                    minStr = "0" + min.ToString() + ":";
             }
             else
             {
-                if (min > 0) { minStr = min.ToString() + ":"; }
-                else { minStr = ""; }
+                if (min > 0) 
+                    minStr = min.ToString() + ":";
+                else 
+                    minStr = "";
             }
             return (hour == 0 ? "" : hour.ToString() + ":") + minStr +
                 ((sec < 10 && (hour > 0 || min > 0)) ? "0" + sec.ToString() : sec.ToString()) + "." +

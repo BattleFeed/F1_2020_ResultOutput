@@ -3,11 +3,14 @@ using System.Net;
 using System.Net.Sockets;
 using Codemasters.F1_2020;
 using F1_2020_ResultOutput;
+using F1_2020_ResultOutput.Models;
 
 public class Program
 {
     private const int listenPort = 20777;
     private const string ipString = "127.0.0.1";
+
+    public static MatchResultViewModel ResultVM { get; set; }
 
     public static void Main()
     {
@@ -20,88 +23,95 @@ public class Program
         IPAddress ip = IPAddress.Parse(ipString);
         IPEndPoint groupEP = new IPEndPoint(ip, listenPort);
 
-        var p = new Packet();
-        var fcp = new FinalClassificationPacket();
-        // var pp = new ParticipantPacket();
+        ResultVM = new MatchResultViewModel();
+
+        var p = new Packet();              
         var sp = new SessionPacket();
-
-        //string[] names = new string[22];
-        //for (int i = 0; i < 22; i++)
-        //{
-        //    names[i] = "_unnamed_";
-        //}
-        double[] qualiTimes = new double[22];
-
-        // int pTick = -1;
+              
         int sTick = -1;
-        bool qualiStated = false;
-        bool raceStated = false;               
+        int pTick = -1;        
+        bool isQualiStated = false;
+        bool isRaceStated = false;
+        bool isPlayerStated = false;
         bool isRacing = true;
-
+        
         try
         {
-            Console.WriteLine("Waiting for broadcast");
+            Console.WriteLine($"{DateTime.Now:t} Waiting for broadcast on {ipString}:{listenPort}");
             
             while (true)
             {
                 byte[] bytes = listener.Receive(ref groupEP);
                 p.LoadBytes(bytes);
-                if (p.PacketType == PacketType.FinalClassification)// once Match/Quali is finished
+
+                if (p.PacketType == PacketType.FinalClassification) // once when Qualifying/Race is finished
                 {
-                    if (isRacing && !raceStated)
+                    if (!isRacing && !isQualiStated)
                     {
-                        raceStated = true;
-                        FinalClassificationOutput.OutputResult(bytes, qualiTimes);
-                        Console.WriteLine("Excel file exported");
+                        isQualiStated = true;
+
+                        ResultVM.LoadQualiData(bytes);
+
+                        Console.WriteLine($"{DateTime.Now:t} Qualifying time has been recorded.");
                     }
-                    else if (!qualiStated )
+                    else if (isRacing && !isRaceStated)
                     {
-                        qualiStated = true;
-                        fcp.LoadBytes(bytes);
-                        for (int i = 0; i < fcp.FieldClassificationData.Length; i++)
-                        {
-                            qualiTimes[i] = fcp.FieldClassificationData[i].BestLapTimeSeconds;
-                        }
-                        Console.WriteLine("Qualifying Time stated");
-                    }
-                }
-                //else if (p.PacketType == PacketType.Participants) // Every 5 seconds
-                //{
-                //    pTick = (pTick + 1) % 6;
-                //    if (pTick != 0) { continue; } // check once per 30s
-                //    pp.LoadBytes(bytes);
-                //    for (int i = 0; i < pp.FieldParticipantData.Length; i++)
-                //    {
-                //        names[i] = pp.FieldParticipantData[i];
-                //        // Console.WriteLine($"The driver #{i} is {data[i].Name}");
-                //    }
-                //    Console.WriteLine("Name refreshed");
-                //}
-                // does NOT deal with Q1/Q2/Q3
-                else if(p.PacketType == PacketType.Session) // 2 per second
+                        isRaceStated = true;
+
+                        ResultVM.LoadRaceData(bytes);
+                        Console.WriteLine($"{DateTime.Now:t} Players in race : {ResultVM.NumberOfPlayers}");
+
+                        DataExport.ExportToExcel(ResultVM);
+                        DataExport.ExportToConsole(ResultVM);
+
+                        Console.WriteLine($"{DateTime.Now:t} Race result has been exported to Excel file.");
+                    }                    
+                }                
+                else if(p.PacketType == PacketType.Session) 
                 {
-                    sTick = (sTick + 1) % 60;
-                    if (sTick != 0) { continue; } // check once per 30s
+                    sTick = (sTick + 1) % 60; // 2 times per sec; check once per 30s
+                    if (sTick != 0) { continue; }
                     sp.LoadBytes(bytes);
-                    if (sp.SessionTypeMode == SessionPacket.SessionType.ShortQualifying || sp.SessionTypeMode == SessionPacket.SessionType.OneShotQualifying)
+
+                    // SessionType.ShortQualifying actually = 7  ???
+                    if ((int)sp.SessionTypeMode == 7 || sp.SessionTypeMode == SessionPacket.SessionType.OneShotQualifying)
                     {
-                        isRacing = false;
-                        Console.WriteLine("Current session: qualifying");
+                        if (isRacing) // First detection of quali session
+                        {
+                            Console.WriteLine($"{DateTime.Now:t} Current session : Qualifying");
+                            isRacing = false;
+                        }
                     }
                     else if (sp.SessionTypeMode == SessionPacket.SessionType.Race || sp.SessionTypeMode == SessionPacket.SessionType.Race2)
                     {
-                        isRacing = true;
-                        Console.WriteLine("Current session: race");
-                    }
-                    
+                        if (!isRacing) // First detection of race session
+                        {
+                            Console.WriteLine($"{DateTime.Now:t} Current session : Race");
+                            isRacing = true;
+                        }
+                    }                   
                 }
+                #region refresh name (enabled)
+                else if (p.PacketType == PacketType.Participants) 
+                {
+                    pTick = (pTick + 1) % 6; // once every 5s; check once per 30s
+                    if (pTick != 0) { continue; }
+
+                    ResultVM.LoadParticipantData(bytes);
+                    if (!isPlayerStated)
+                    {
+                        Console.WriteLine($"{DateTime.Now:t} Player names have been recorded.");
+                        isPlayerStated = true;
+                    }
+                }
+                #endregion
 
                 // Console.WriteLine($"Received broadcast from {groupEP} :");
             }
         }
         catch (SocketException e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine($"{DateTime.Now:T} {e}");
         }
         finally
         {
